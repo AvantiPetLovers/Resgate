@@ -1,0 +1,24 @@
+{
+  "name": "resgate",
+  "version": "1.0.0",
+  "description": "Repositório para o projeto do Bootcamp Atlântico Avanti",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/l-ricardo/Resgate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/l-ricardo/Resgate/issues"
+  },
+  "homepage": "https://github.com/l-ricardo/Resgate#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  }
+}
