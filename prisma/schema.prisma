@@ -8,7 +8,12 @@ datasource db {
 }
 
 model Pet {
-  id      String @id @default(uuid())
-  name    String
-  species String
+  id          String @id @default(uuid())
+  name        String
+  species     String?
+  birth_date  String?
+  description String?
+  status      String?
+  size        String?
+  personality String?
 }
