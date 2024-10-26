@@ -8,12 +8,45 @@ datasource db {
 }
 
 model Pet {
-  id          String @id @default(uuid())
-  name        String
-  species     String?
-  birth_date  String?
-  description String?
-  status      String?
-  size        String?
-  personality String?
+  id          String          @id @default(uuid())
+  name        String          @db.VarChar(50)
+  species     PetSpecies
+  birth_date  DateTime        @db.Date
+  description String?         @db.VarChar(300)
+  status      PetStatus       @default(AVAILABLE)
+  size        PetSize
+  personality PetPersonality?
+}
+
+enum PetSpecies {
+  DOG
+  CAT
+  RABBIT
+  FISH
+  BIRD
+  TURTLE
+  SNAKE
+  OTHER
+}
+
+enum PetStatus {
+  AVAILABLE
+  ADOPTED
+}
+
+enum PetSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum PetPersonality {
+  CALM
+  AGGRESSIVE
+  PLAYFUL
+  INDEPENDENT
+  DEPENDENT
+  LOYAL
+  CURIOUS
+  LOVING
 }
