@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/l-ricardo/Resgate#readme",
   "dependencies": {
+    "@prisma/client": "^5.21.1",
     "express": "^4.21.1",
     "nodemon": "^3.1.7"
   },
