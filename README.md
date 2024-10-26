@@ -33,3 +33,33 @@
    ```
 
 5. Quando todas as alterações referentes a sua branch forem implementadas, vá ao GitHub e abra um pull request para a branch dev.
+
+
+**Instalação e Execução do Projeto:**
+
+1. Baixe e instale o [NodeJS](https://nodejs.org/).
+
+2. Baixe e instale o [PostgreSQL](https://www.postgresql.org/).
+
+3. Para instalar as dependências, execute o comando na pasta raiz do projeto:
+   ```bash
+   npm install  
+   ```
+4. Faca uma copia do arquivo `.env.example` e renomeie como `.env`:
+   ```bash
+   copy .env.example .env
+   ```
+
+5. No arquivo `.env` configure a variável `DATABASE_URL` com a `SEU_USUARIO` e `SUA_SENHA` usados ao instalar o PostgreSQL.
+
+6. Gere uma nova base de dados com:
+   ```bash
+   npx prisma db push
+   ```
+
+7. Para rodar o projeto localmente:
+   ```bash
+   npm start
+   ```
+
+8. Agora é possivel fazer requisições HTTP em http://localhost:3001
