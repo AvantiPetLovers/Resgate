@@ -50,3 +50,24 @@ enum PetPersonality {
   CURIOUS
   LOVING
 }
+
+model Adopter {
+  id          String          @id @default(uuid())
+  name        String          @db.VarChar(40)
+  email       @unique
+  password
+  phone       String         @db.VarChar(13)
+  adress      Adress[]
+
+  @@map("adopters")
+}
+
+model Adress{
+street          String
+number          String
+neighborhood    String
+city            String
+
+@@id([adopterId])
+@@map("adresses")
+}
