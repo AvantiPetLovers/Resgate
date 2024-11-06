@@ -73,4 +73,4 @@
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Resgate2&uri=https%3A%2F%2Fraw.githubusercontent.com%2FAvantiPetLovers%2FResgate%2Frefs%2Fheads%2Fmain%2FInsomniaExport.json)
 
 
-4. Para mais detalhes veja as rotas e exemplos de requisições em [Requisições](requestsExamples.md)
+3. Para mais detalhes veja as rotas e exemplos de requisições em [Requisições](requestsExamples.md)
