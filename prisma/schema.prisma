@@ -16,7 +16,7 @@ model Pet {
   status      PetStatus       @default(AVAILABLE)
   size        PetSize
   personality PetPersonality?
-  adoptions Adoption[]
+  adoptions   Adoption[]
 }
 
 enum PetSpecies {
@@ -53,12 +53,12 @@ enum PetPersonality {
 }
 
 model Adopter {
-  id       String   @id @default(uuid())
-  name     String   @db.VarChar(40)
-  email    String   @unique
-  password String
-  phone    String   @db.VarChar(13)
-  adress   Adress[]
+  id        String     @id @default(uuid())
+  name      String     @db.VarChar(40)
+  email     String     @unique
+  password  String
+  phone     String     @db.VarChar(13)
+  adress    Adress[]
   adoptions Adoption[]
 
   @@map("adopters")
@@ -80,6 +80,5 @@ model Adoption {
   pet          Pet      @relation(fields: [pet_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_pet")
   adopter_id   String
   adopter      Adopter  @relation(fields: [adopter_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_adopter")
-  adopter_date DateTime @db.Date
-  
+  adopter_date DateTime @default(now())
 }
