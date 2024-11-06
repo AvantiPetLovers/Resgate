@@ -9,7 +9,7 @@ datasource db {
 
 model Pet {
   id          String          @id @default(uuid())
-  name        String          @db.VarChar(50)
+  name        String          @db.VarChar(40)
   species     PetSpecies
   birth_date  DateTime        @db.Date
   description String?         @db.VarChar(300)
@@ -58,27 +58,27 @@ model Adopter {
   email     String     @unique
   password  String
   phone     String     @db.VarChar(13)
-  adress    Adress[]
+  adress    Adress?
   adoptions Adoption[]
-
-  @@map("adopters")
 }
 
 model Adress {
-  id           String   @id @default(uuid())
   street       String
   number       String
   neighborhood String
   city         String
-  adopterId    String   @map("adopterId")
-  adopter      Adopter? @relation(fields: [adopterId], references: [id])
+  adopter_id   String
+  adopter      Adopter @relation(fields: [adopter_id], references: [id], map: "fk_adopter", onDelete: Cascade)
+
+  @@id(adopter_id) // Chave primária de endereço é a mesma de adotante
 }
 
 model Adoption {
-  id           String   @id @default(uuid())
-  pet_id       String
-  pet          Pet      @relation(fields: [pet_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_pet")
-  adopter_id   String
-  adopter      Adopter  @relation(fields: [adopter_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_adopter")
-  adopter_date DateTime @default(now())
+  pet_id        String
+  pet           Pet      @relation(fields: [pet_id], references: [id], map: "fk_pet")
+  adopter_id    String
+  adopter       Adopter  @relation(fields: [adopter_id], references: [id], map: "fk_adopter")
+  adoption_date DateTime @default(now())
+
+  @@id([pet_id, adopter_id]) // Chave primária de adoção é composta por pet e adotante
 }

@@ -6,7 +6,11 @@ class AdopterController {
 
     async listAdopters(request, response) {
         try {
-            const adopter = await prisma.adopter.findMany()
+            const adopter = await prisma.adopter.findMany({
+                include: {
+                    adress: true,
+                }
+            })
             return response.status(200).json(adopter)
         } catch (error) {
             return response.status(500).json({ error: error.message })
@@ -19,6 +23,9 @@ class AdopterController {
             const adopter = await prisma.adopter.findUnique({
                 where: {
                     id
+                },
+                include: {
+                    adress: true,
                 }
             })
             return response.status(200).json(adopter)
@@ -28,13 +35,17 @@ class AdopterController {
     }
 
     async addAdopter(request, response) {
-        const { name, email, password, phone } = request.body
+        const { name, email, password, phone, adress } = request.body
         try {
             const adopter = await prisma.adopter.create({
                 data: {
-                    name, email, password, phone, adress
+                    name, email, password, phone,
+                    adress: { create: adress }
+                },
+                include: {
+                    adress: true,
                 }
-            })
+            });
             return response.status(200).json(adopter)
         } catch (error) {
             return response.status(500).json({ error: error.message })
@@ -42,15 +53,27 @@ class AdopterController {
     }
 
     async editAdopterById(request, response) {
-        const { name, email, password, phone } = request.body
+        const { name, email, password, phone, adress } = request.body
         const { id } = request.params
+
         try {
             const adopter = await prisma.adopter.update({
                 data: {
-                    name, email, password, phone, adress
+                    name, email, password, phone,
+                    adress: {
+                        update: {
+                            street: adress.street,
+                            number: adress.number,
+                            neighborhood: adress.neighborhood,
+                            city: adress.city,
+                        },
+                    },
                 },
                 where: {
                     id
+                },
+                include: {
+                    adress: true,
                 }
             })
             return response.status(200).json(adopter)
@@ -65,6 +88,9 @@ class AdopterController {
             const adopter = await prisma.adopter.delete({
                 where: {
                     id
+                },
+                include: {
+                    adress: true,
                 }
             })
             return response.status(200).json(adopter)
