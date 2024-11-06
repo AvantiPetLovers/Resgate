@@ -63,3 +63,9 @@
    ```
 
 8. Agora é possivel fazer requisições HTTP em http://localhost:3001
+
+
+**Testar requisições:**
+1. Instale o [Insomnia](https://insomnia.rest/download)
+
+2. Veja as rotas e exemplos de requisições em [Requisições](requestsExamples.md)
