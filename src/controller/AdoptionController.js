@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 // Criar controller de adoção
-class AdopterController {
+class AdoptionController {
     async createAdoption(request, response) {
         const { pet_id, adopter_id } = request.body;
 
@@ -29,4 +29,4 @@ class AdopterController {
     };
 }
 
-export { AdopterController }
+export { AdoptionController }
