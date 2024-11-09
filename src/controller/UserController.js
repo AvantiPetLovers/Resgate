@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from "bcryptjs"
+
 const prisma = new PrismaClient()
 
 // TODO: Adicionar o JOI para validações
@@ -9,8 +11,11 @@ class UserController {
     async listUsers(request, response) {
         try {
             const user = await prisma.user.findMany({
-                include: {
-                    adress: true,
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    access: true
                 }
             })
             return response.status(200).json(user)
@@ -23,11 +28,31 @@ class UserController {
         const { id } = request.params
         try {
             const user = await prisma.user.findUnique({
-                where: {
-                    id
-                },
-                include: {
-                    adress: true,
+                where: { id },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    access: true,
+                    adopter: {
+                        select: {
+                            phone: true,
+                            adress: {
+                                select: {
+                                    street: true,
+                                    number: true,
+                                    neighborhood: true,
+                                    city: true
+                                }
+                            },
+                            pets: {
+                                select: {
+                                    name: true,
+                                    species: true,
+                                }
+                            }
+                        }
+                    }
                 }
             })
             return response.status(200).json(user)
@@ -38,21 +63,45 @@ class UserController {
 
     async addUser(request, response) {
         const { name, email, password, phone, adress } = request.body
-        encryptedPassword = await bcrypt.hash(password, 10)
+        const encryptedPassword = await bcrypt.hash(password, 10)
         try {
             const user = await prisma.user.create({
                 data: {
-                    name, email, phone,
+                    name, email,
                     password: encryptedPassword,
-                    adress: { create: adress }
+                    adopter: {
+                        create: {
+                            phone,
+                            adress: {
+                                create: {
+                                    // TODO: Checar se isso esta funcionando
+                                    street: adress.street,
+                                    number: adress.number,
+                                    neighborhood: adress.neighborhood,
+                                    city: adress.city,
+                                }
+                            }
+                        }
+                    }
                 },
                 select: {
+                    id: true,
                     name: true,
                     email: true,
-                    phone: true,
-                },
-                include: {
-                    adress: true,
+                    access: true,
+                    adopter: {
+                        select: {
+                            phone: true,
+                            adress: {
+                                select: {
+                                    street: true,
+                                    number: true,
+                                    neighborhood: true,
+                                    city: true
+                                }
+                            }
+                        }
+                    }
                 }
             });
             return response.status(200).json(user)
@@ -64,26 +113,47 @@ class UserController {
     async editUserById(request, response) {
         const { name, email, password, phone, adress } = request.body
         const { id } = request.params
-
+        const encryptedPassword = await bcrypt.hash(password, 10)
         try {
             const user = await prisma.user.update({
                 data: {
-                    name, email, password, phone,
-                    adress: {
+                    name, email,
+                    password: encryptedPassword,
+                    adopter: {
                         update: {
-                            street: adress.street,
-                            number: adress.number,
-                            neighborhood: adress.neighborhood,
-                            city: adress.city,
-                        },
-                    },
+                            phone,
+                            adress: {
+                                update: {
+                                    // TODO: Checar se isso esta funcionando
+                                    street: adress.street,
+                                    number: adress.number,
+                                    neighborhood: adress.neighborhood,
+                                    city: adress.city,
+                                }
+                            }
+                        }
+                    }
                 },
-                where: {
-                    id
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    access: true,
+                    adopter: {
+                        select: {
+                            phone: true,
+                            adress: {
+                                select: {
+                                    street: true,
+                                    number: true,
+                                    neighborhood: true,
+                                    city: true
+                                }
+                            }
+                        }
+                    }
                 },
-                include: {
-                    adress: true,
-                }
+                where: { id }
             })
             return response.status(200).json(user)
         } catch (error) {
@@ -94,15 +164,10 @@ class UserController {
     async deleteUserById(request, response) {
         const { id } = request.params
         try {
-            const user = await prisma.user.delete({
-                where: {
-                    id
-                },
-                include: {
-                    adress: true,
-                }
+            await prisma.user.delete({
+                where: { id },
             })
-            return response.status(200).json(user)
+            return response.status(200).json({ message: 'Usuario excluído com sucesso' })
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
