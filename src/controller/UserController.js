@@ -1,26 +1,28 @@
 import { PrismaClient } from '@prisma/client'
-
 const prisma = new PrismaClient()
 
-class AdopterController {
+// TODO: Adicionar o JOI para validações
 
-    async listAdopters(request, response) {
+
+class UserController {
+
+    async listUsers(request, response) {
         try {
-            const adopter = await prisma.adopter.findMany({
+            const user = await prisma.user.findMany({
                 include: {
                     adress: true,
                 }
             })
-            return response.status(200).json(adopter)
+            return response.status(200).json(user)
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
 
-    async getAdopterById(request, response) {
+    async getUserById(request, response) {
         const { id } = request.params
         try {
-            const adopter = await prisma.adopter.findUnique({
+            const user = await prisma.user.findUnique({
                 where: {
                     id
                 },
@@ -28,36 +30,43 @@ class AdopterController {
                     adress: true,
                 }
             })
-            return response.status(200).json(adopter)
+            return response.status(200).json(user)
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
 
-    async addAdopter(request, response) {
+    async addUser(request, response) {
         const { name, email, password, phone, adress } = request.body
+        encryptedPassword = await bcrypt.hash(password, 10)
         try {
-            const adopter = await prisma.adopter.create({
+            const user = await prisma.user.create({
                 data: {
-                    name, email, password, phone,
+                    name, email, phone,
+                    password: encryptedPassword,
                     adress: { create: adress }
+                },
+                select: {
+                    name: true,
+                    email: true,
+                    phone: true,
                 },
                 include: {
                     adress: true,
                 }
             });
-            return response.status(200).json(adopter)
+            return response.status(200).json(user)
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
 
-    async editAdopterById(request, response) {
+    async editUserById(request, response) {
         const { name, email, password, phone, adress } = request.body
         const { id } = request.params
 
         try {
-            const adopter = await prisma.adopter.update({
+            const user = await prisma.user.update({
                 data: {
                     name, email, password, phone,
                     adress: {
@@ -76,16 +85,16 @@ class AdopterController {
                     adress: true,
                 }
             })
-            return response.status(200).json(adopter)
+            return response.status(200).json(user)
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
 
-    async deleteAdopterById(request, response) {
+    async deleteUserById(request, response) {
         const { id } = request.params
         try {
-            const adopter = await prisma.adopter.delete({
+            const user = await prisma.user.delete({
                 where: {
                     id
                 },
@@ -93,11 +102,11 @@ class AdopterController {
                     adress: true,
                 }
             })
-            return response.status(200).json(adopter)
+            return response.status(200).json(user)
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
 }
 
-export { AdopterController }
+export { UserController }
