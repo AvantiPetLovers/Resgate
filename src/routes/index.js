@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { LoginController } from '../controller/LoginController.js';
 import { PetController } from '../controller/PetController.js';
 import { UserController } from '../controller/UserController.js';
+import { AdoptionController } from '../controller/AdoptionController.js';
 import { verifyAuth, verifyAdminAuth } from '../auth/authMiddleware.js';
 
 const router = Router();
@@ -33,6 +34,9 @@ router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante pod
 router.delete("/user/:id",verifyAdminAuth, userController.deleteUserById); // Apenas ADMIN pode deletar
 router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante pode editar proprio perfil
 
+//Adoção
+const adoptionController = new AdoptionController();
 
+router.post('adoptions', createAdoption);
 
 export { router };
