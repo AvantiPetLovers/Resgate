@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { PetController } from '../controller/PetController.js';
 import { AdopterController } from '../controller/AdopterController.js';
+import {AdoptionController } from '../controller/AdoptionController.js';
 
 const router = Router();
 
@@ -24,6 +25,8 @@ router.get("/adopter/:id", adopterController.getAdopterById);
 router.delete("/adopter/:id", adopterController.deleteAdopterById);
 router.put("/adopter/:id", adopterController.editAdopterById);
 
-
+//Adoção
+const adoptionController = new AdoptionController();
+router.post('adoptions', createAdoption);
 
 export { router };
