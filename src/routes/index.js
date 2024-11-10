@@ -10,6 +10,7 @@ const petController = new PetController();
 
 router.post("/pet", petController.addPet);
 router.get("/pet", petController.listPets);
+router.get("/pet/disponiveis", petController.listAvailablePets);
 router.get("/pet/:id", petController.getPetById);
 router.delete("/pet/:id", petController.deletePetById);
 router.put("/pet/:id", petController.editPetById);

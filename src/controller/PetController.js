@@ -4,12 +4,26 @@ const prisma = new PrismaClient()
 
 class PetController {
 
+
     async listPets(request, response) {
         try {
             const pets = await prisma.pet.findMany()
             return response.status(200).json(pets)
         } catch (error) {
             return response.status(500).json({ error: error.message })
+        }
+    }
+
+    async listAvailablePets(request, response) {
+        try {
+            const pets = await prisma.pet.findMany({
+                where: {
+                    status: 'AVAILABLE'
+                }
+            });
+            return response.status(200).json(pets);
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
         }
     }
 
