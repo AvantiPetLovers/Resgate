@@ -7,6 +7,6 @@ app.use(express.json())
 app.use(router)
 
 
-app.listen(5432, () => {
-    console.log('Running server')
+app.listen(3001, () => {
+        console.log('Running server')
 })
