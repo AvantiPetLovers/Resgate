@@ -68,7 +68,7 @@ enum AccessLevel {
 
 model Adopter {
   user_id   String     @unique
-  user      User       @relation(fields: [user_id], references: [id])
+  user      User       @relation(fields: [user_id], references: [id], map: "fk_user", onDelete: Cascade)
   phone     String     @db.VarChar(13)
   adress    Adress?
   adoptions Adoption[]
@@ -95,5 +95,5 @@ model Adoption {
   adopter       Adopter  @relation(fields: [adopter_id], references: [user_id], map: "fk_adopter")
   adoption_date DateTime @default(now())
 
-  @@id([pet_id, adopter_id]) // Chave primária de adoção é composta por pet e adotante
+  @@id(pet_id) // Chave primária de adoção é a mesma de pet
 }

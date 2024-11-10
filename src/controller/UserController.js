@@ -25,41 +25,52 @@ class UserController {
     }
 
     async getUserById(request, response) {
-        const { id } = request.params
+        const { id } = request.params;
         try {
+            // Primeira consulta para o usuário básico
             const user = await prisma.user.findUnique({
-                where: { id },
                 select: {
                     id: true,
                     name: true,
                     email: true,
-                    access: true,
-                    adopter: {
+                    access: true
+                },
+                where: { id }
+            });
+
+            if (!user) {
+                return response.status(404).json({ error: "Usuario nao encontrado" });
+            }
+
+            // Segunda consulta para a parte de adotante
+            const adopter = await prisma.adopter.findUnique({
+                select: {
+                    phone: true,
+                    adress: {
                         select: {
-                            phone: true,
-                            adress: {
-                                select: {
-                                    street: true,
-                                    number: true,
-                                    neighborhood: true,
-                                    city: true
-                                }
-                            },
-                            pets: {
-                                select: {
-                                    name: true,
-                                    species: true,
-                                }
-                            }
+                            street: true,
+                            number: true,
+                            neighborhood: true,
+                            city: true
                         }
-                    }
-                }
-            })
-            return response.status(200).json(user)
+                    },
+                },
+                where: { user_id: id }
+            });
+
+            // Retorno final, combinando as informações
+            return response.status(200).json({
+                ...user,
+                ...adopter || null,
+            });
+
         } catch (error) {
-            return response.status(500).json({ error: error.message })
+            return response.status(500).json({ error: error.message });
         }
     }
+
+
+
 
     async addUser(request, response) {
         const { name, email, password, phone, adress } = request.body
@@ -74,7 +85,6 @@ class UserController {
                             phone,
                             adress: {
                                 create: {
-                                    // TODO: Checar se isso esta funcionando
                                     street: adress.street,
                                     number: adress.number,
                                     neighborhood: adress.neighborhood,
@@ -165,7 +175,7 @@ class UserController {
         const { id } = request.params
         try {
             await prisma.user.delete({
-                where: { id },
+                where: { id }
             })
             return response.status(200).json({ message: 'Usuario excluído com sucesso' })
         } catch (error) {

@@ -27,6 +27,27 @@ class AdoptionController {
             return response.status(500).json({ error: error.message });
         }
     };
+
+    async listAdoptions(request, response) {
+        try {
+            const adoptions = await prisma.adoption.findMany();
+            return response.status(200).json(adoptions);
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
+        }
+    };
+
+    async getAdoptionById(request, response) {
+        const { id } = request.params;
+        try {
+            const adoption = await prisma.adoption.findUnique({
+                where: { pet_id: id },
+            });
+            return response.status(200).json(adoption);
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
+        }
+    };
 }
 
 export { AdoptionController }

@@ -73,7 +73,7 @@ class PetController {
             const pet = await prisma.pet.delete({
                 where: { id }
             })
-            return response.status(200).json(pet)
+            return response.status(200).json({ message: 'Pet excluído com sucesso' })
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }

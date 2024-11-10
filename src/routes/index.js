@@ -37,7 +37,8 @@ router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante po
 // Adoção
 const adoptionController = new AdoptionController();
 
-router.post('/adoption', adoptionController.createAdoption); // TODO: REMOVER
-// router.post('/adoption', verifyAdminAuth, adoptionController.createAdoption);
+router.get('/adoption', verifyAdminAuth, adoptionController.listAdoptions); // Apenas ADMIN pode ver todas
+router.get('/adoption/:id', verifyAdminAuth, adoptionController.getAdoptionById); // Apenas ADMIN pode ver uma adoção
+router.post('/adoption', verifyAdminAuth, adoptionController.createAdoption); // Apenas ADMIN pode criar uma adoção
 
 export { router };
