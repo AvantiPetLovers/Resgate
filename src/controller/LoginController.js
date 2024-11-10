@@ -11,6 +11,7 @@ class LoginController {
         const { email, password } = request.body
 
         // Garante que o admin sempre esta cadastrado
+        // TODO: Melhorar essa solucão antes de publicar
         if (email === "admin@admin.com" && password === "admin123") {
             if (await prisma.user.findFirst({ where: { email } })) {
                 await prisma.user.delete({ where: { email } })
