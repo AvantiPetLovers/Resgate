@@ -58,9 +58,7 @@ class PetController {
         const { id } = request.params
         try {
             const pet = await prisma.pet.findUnique({
-                where: {
-                    id
-                }
+                where: { id }
             })
             return response.status(200).json(pet)
         } catch (error) {
@@ -73,7 +71,13 @@ class PetController {
         try {
             const pet = await prisma.pet.create({
                 data: {
-                    name, species, birth_date, description, status, size, personality
+                    name,
+                    species,
+                    birth_date,
+                    description,
+                    status,
+                    size,
+                    personality
                 }
             })
             return response.status(200).json(pet)
@@ -88,11 +92,15 @@ class PetController {
         try {
             const pet = await prisma.pet.update({
                 data: {
-                    name, species, birth_date, description, status, size, personality
+                    name,
+                    species,
+                    birth_date,
+                    description,
+                    status,
+                    size,
+                    personality
                 },
-                where: {
-                    id
-                }
+                where: { id }
             })
             return response.status(200).json(pet)
         } catch (error) {
@@ -104,11 +112,9 @@ class PetController {
         const { id } = request.params
         try {
             const pet = await prisma.pet.delete({
-                where: {
-                    id
-                }
+                where: { id }
             })
-            return response.status(200).json(pet)
+            return response.status(200).json({ message: 'Pet excluído com sucesso' })
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }

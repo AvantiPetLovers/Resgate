@@ -16,36 +16,7 @@ model Pet {
   status      PetStatus       @default(AVAILABLE)
   size        PetSize
   personality PetPersonality?
-  adoptions   Adoption[]
-}
-
-model Adopter {
-  id        String     @id @default(uuid())
-  name      String     @db.VarChar(40)
-  email     String     @unique
-  password  String
-  phone     String     @db.VarChar(13)
-  adoptions Adoption[]
-  adress    Adress?
-}
-
-model Adress {
-  street       String
-  number       String
-  neighborhood String
-  city         String
-  adopter_id   String  @id
-  adopter      Adopter @relation(fields: [adopter_id], references: [id], onDelete: Cascade, map: "fk_adopter")
-}
-
-model Adoption {
-  pet_id        String
-  adopter_id    String
-  adoption_date DateTime @default(now())
-  adopter       Adopter  @relation(fields: [adopter_id], references: [id], map: "fk_adopter")
-  pet           Pet      @relation(fields: [pet_id], references: [id], map: "fk_pet")
-
-  @@id([pet_id, adopter_id])
+  adoptions   Adoption?
 }
 
 enum PetSpecies {
@@ -79,4 +50,41 @@ enum PetPersonality {
   LOYAL
   CURIOUS
   LOVING
+}
+
+model User {
+  id        String      @id @default(uuid())
+  name      String      @db.VarChar(40)
+  email     String      @unique
+  password  String
+  phone     String?     @db.VarChar(14)
+  access    AccessLevel @default(ADOPTER)
+  adress    Adress?
+  adoptions Adoption[]
+}
+
+enum AccessLevel {
+  ADMIN
+  ADOPTER
+}
+
+model Adress {
+  user_id      String @unique
+  user         User   @relation(fields: [user_id], references: [id], map: "fk_user", onDelete: Cascade, onUpdate: Cascade)
+  street       String
+  number       String
+  neighborhood String
+  city         String
+
+  @@id(user_id) // Chave primária de endereço é a mesma de adotante
+}
+
+model Adoption {
+  pet_id        String   @unique
+  pet           Pet      @relation(fields: [pet_id], references: [id], map: "fk_pet", onDelete: Cascade, onUpdate: Cascade)
+  user_id       String
+  user          User     @relation(fields: [user_id], references: [id], map: "fk_user", onDelete: Cascade, onUpdate: Cascade)
+  adoption_date DateTime @default(now())
+
+  @@id(pet_id) // Chave primária de adoção é a mesma de pet
 }
