@@ -26,8 +26,8 @@ export function verifyAdminAuth(request, response, next) {
     }
     const [, token] = authorization.split(' ')
     try {
-        const { perfil } = jwt.verify(token, process.env.JWT_SECRET)
-        if (perfil !== 'ADMIN') {
+        const { access } = jwt.verify(token, process.env.JWT_SECRET)
+        if (access !== 'ADMIN') {
             return response.status(403).json({ error: 'Não autorizado' })
         }
         next()

@@ -11,7 +11,7 @@ const router = Router();
 // Login
 const loginController = new LoginController();
 
-router.get("/login", loginController.login);
+router.post("/login", loginController.login); // DOUBT? Pq isso é um POST e nao GET?
 
 
 
