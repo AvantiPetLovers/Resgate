@@ -37,7 +37,16 @@
 <details><summary>Listar todos os pets</summary>
 
 1. No endereço `http://localhost:3001/pet`, crie uma requisição GET.
-2. Faça a requisição.
+2. Na seção Params é possivel adicionar filtros para Status, Especie, Idade, Tamanho e Personalidade. Basta usar as chaves:
+   ```json
+   status: 
+   species: 
+   min_age: 
+   max_age: 
+   size: 
+   personality: 
+   ```
+3. Faça a requisição.
 </details>
 
 <details><summary>Encontrar pet por ID</summary>

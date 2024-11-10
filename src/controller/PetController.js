@@ -7,18 +7,11 @@ class PetController {
 
     async listPets(request, response) {
         try {
-            const pets = await prisma.pet.findMany()
-            return response.status(200).json(pets)
-        } catch (error) {
-            return response.status(500).json({ error: error.message })
-        }
-    }
-
-    async listAvailablePets(request, response) {
-        try {
-            const { species, status, min_age, max_age } = request.query;
+            const { species, status, min_age, max_age, size, personality } = request.query;
 
             const filters = {
+                ...(size && { size }),
+                ...(personality && { personality }),
                 ...(species && { species }), 
                 ...(status && { status }), 
             };
