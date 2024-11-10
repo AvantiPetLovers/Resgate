@@ -66,11 +66,11 @@
 
 
 **Testar requisições:**
-1. Instale o [Insomnia](https://insomnia.rest/download)
+1. Instale o [Insomnia](https://insomnia.rest/download).
 
-2. Clique no botão abaixo.
+2. Importe para o seu insomnia este [arquivo](InsomniaExport.json) ou clique no botão abaixo.
 
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Resgate2&uri=https%3A%2F%2Fraw.githubusercontent.com%2FAvantiPetLovers%2FResgate%2Frefs%2Fheads%2Fmain%2FInsomniaExport.json)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Resgate&uri=https%3A%2F%2Fraw.githubusercontent.com%2FAvantiPetLovers%2FResgate%2Frefs%2Fheads%2Fmain%2FInsomniaExport.json)
 
 
-3. Para mais detalhes veja as rotas e exemplos de requisições em [Requisições](requestsExamples.md)
+3. Para mais detalhes veja as rotas e exemplos de requisições em [Requisições](requestsExamples.md).
