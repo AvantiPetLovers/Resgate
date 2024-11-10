@@ -20,6 +20,7 @@ const petController = new PetController();
 
 router.post("/pet", verifyAdminAuth, petController.addPet); // Apenas ADMIN pode cadastrar um pet
 router.get("/pet", petController.listPets); // Qualquer um pode ver os pets
+router.get('/pets/available', petController.listAvailablePets); // Qualquer um pode ver os pets disponíveis
 router.get("/pet/:id", petController.getPetById); // Qualquer um pode ver um pet
 router.delete("/pet/:id", verifyAdminAuth, petController.deletePetById); // Apenas ADMIN pode deletar um pet
 router.put("/pet/:id", verifyAdminAuth, petController.editPetById); // Apenas ADMIN pode editar um pet
