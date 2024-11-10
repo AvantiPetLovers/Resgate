@@ -30,9 +30,9 @@ const userController = new UserController();
 
 router.post("/user", userController.addUser) // Qualquer um pode criar um perfil
 router.get("/user", verifyAdminAuth, userController.listUsers); // Apenas ADMIN pode ver todos
-router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante pode ver o proprio perfil (TODO: Descobrir como limitar ao proprio perfil)
+router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante pode ver o proprio perfil // TODO: Descobrir como limitar ao proprio perfil
 router.delete("/user/:id", verifyAdminAuth, userController.deleteUserById); // Apenas ADMIN pode deletar
-router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante pode editar proprio perfil
+router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante pode editar proprio perfil // TODO: Descobrir como limitar ao proprio perfil
 
 // Adoção
 const adoptionController = new AdoptionController();
