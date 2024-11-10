@@ -1,5 +1,5 @@
 import express from "express"
-import {router} from "./routes/index.js"
+import { router } from "./routes/index.js"
 
 const app = express()
 
@@ -8,5 +8,5 @@ app.use(router)
 
 
 app.listen(3001, () => {
-    console.log('Running server')
+        console.log('Running server')
 })
