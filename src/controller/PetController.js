@@ -16,11 +16,38 @@ class PetController {
 
     async listAvailablePets(request, response) {
         try {
-            const pets = await prisma.pet.findMany({
-                where: {
-                    status: 'AVAILABLE'
+            const { species, status, min_age, max_age } = request.query;
+
+            const filters = {
+                ...(species && { species }), 
+                ...(status && { status }), 
+            };
+
+            if (min_age || max_age) {
+                const currentDate = new Date();
+                filters.birth_date = {};
+
+                if (min_age) {
+                    filters.birth_date.lte = new Date(
+                        currentDate.getFullYear() - parseInt(min_age),
+                        currentDate.getMonth(),
+                        currentDate.getDate()
+                    );
                 }
+
+                if (max_age) {
+                    filters.birth_date.gte = new Date(
+                        currentDate.getFullYear() - parseInt(max_age),
+                        currentDate.getMonth(),
+                        currentDate.getDate()
+                    );
+                }
+            }
+
+            const pets = await prisma.pet.findMany({
+                where: filters
             });
+
             return response.status(200).json(pets);
         } catch (error) {
             return response.status(500).json({ error: error.message });
