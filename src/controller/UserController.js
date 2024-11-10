@@ -3,9 +3,6 @@ import bcrypt from "bcrypt"
 
 const prisma = new PrismaClient()
 
-// TODO: Adicionar o JOI para validações
-
-
 class UserController {
 
     async listUsers(request, response) {
@@ -27,24 +24,12 @@ class UserController {
     async getUserById(request, response) {
         const { id } = request.params;
         try {
-            // Primeira consulta para o usuário básico
             const user = await prisma.user.findUnique({
                 select: {
                     id: true,
                     name: true,
                     email: true,
-                    access: true
-                },
-                where: { id }
-            });
-
-            if (!user) {
-                return response.status(404).json({ error: "Usuario nao encontrado" });
-            }
-
-            // Segunda consulta para a parte de adotante
-            const adopter = await prisma.adopter.findUnique({
-                select: {
+                    access: true,
                     phone: true,
                     adress: {
                         select: {
@@ -53,63 +38,52 @@ class UserController {
                             neighborhood: true,
                             city: true
                         }
-                    },
+                    }
                 },
-                where: { user_id: id }
+                where: { id }
             });
-
-            // Retorno final, combinando as informações
-            return response.status(200).json({
-                ...user,
-                ...adopter || null,
-            });
-
+            return response.status(200).json(user);
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
 
 
-
-
     async addUser(request, response) {
         const { name, email, password, phone, adress } = request.body
-        const encryptedPassword = await bcrypt.hash(password, 10)
+
+        const newData = {
+            ...((name && { name }) || {}),
+            ...((email && { email }) || {}),
+            ...((phone && { phone }) || {}),
+            ...((password && { password: await bcrypt.hash(password, 10) }) || {}),
+        };
+        if (adress) {
+            newData.adress = {
+                create: {
+                    street: adress.street,
+                    number: adress.number,
+                    neighborhood: adress.neighborhood,
+                    city: adress.city,
+                }
+            };
+        }
+
         try {
             const user = await prisma.user.create({
-                data: {
-                    name, email,
-                    password: encryptedPassword,
-                    adopter: {
-                        create: {
-                            phone,
-                            adress: {
-                                create: {
-                                    street: adress.street,
-                                    number: adress.number,
-                                    neighborhood: adress.neighborhood,
-                                    city: adress.city,
-                                }
-                            }
-                        }
-                    }
-                },
+                data: newData,
                 select: {
                     id: true,
                     name: true,
                     email: true,
                     access: true,
-                    adopter: {
+                    phone: true,
+                    adress: { 
                         select: {
-                            phone: true,
-                            adress: {
-                                select: {
-                                    street: true,
-                                    number: true,
-                                    neighborhood: true,
-                                    city: true
-                                }
-                            }
+                            street: true,
+                            number: true,
+                            neighborhood: true,
+                            city: true
                         }
                     }
                 }
@@ -121,45 +95,42 @@ class UserController {
     }
 
     async editUserById(request, response) {
-        const { name, email, password, phone, adress } = request.body
         const { id } = request.params
-        const encryptedPassword = await bcrypt.hash(password, 10)
+        const { name, email, password, phone, adress } = request.body
+
+        const newData = {
+            ...((name && { name }) || {}),
+            ...((email && { email }) || {}),
+            ...((phone && { phone }) || {}),
+            ...((password && { password: await bcrypt.hash(password, 10) }) || {}),
+        };
+
+        if (adress) {
+            newData.adress = {
+                update: {
+                    street: adress.street,
+                    number: adress.number,
+                    neighborhood: adress.neighborhood,
+                    city: adress.city,
+                }
+            }
+        }
+
         try {
             const user = await prisma.user.update({
-                data: {
-                    name, email,
-                    password: encryptedPassword,
-                    adopter: {
-                        update: {
-                            phone,
-                            adress: {
-                                update: {
-                                    // TODO: Checar se isso esta funcionando
-                                    street: adress.street,
-                                    number: adress.number,
-                                    neighborhood: adress.neighborhood,
-                                    city: adress.city,
-                                }
-                            }
-                        }
-                    }
-                },
+                data: newData,
                 select: {
                     id: true,
                     name: true,
                     email: true,
                     access: true,
-                    adopter: {
+                    phone: true,
+                    adress: {
                         select: {
-                            phone: true,
-                            adress: {
-                                select: {
-                                    street: true,
-                                    number: true,
-                                    neighborhood: true,
-                                    city: true
-                                }
-                            }
+                            street: true,
+                            number: true,
+                            neighborhood: true,
+                            city: true
                         }
                     }
                 },

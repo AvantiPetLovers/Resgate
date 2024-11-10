@@ -5,13 +5,13 @@ const prisma = new PrismaClient()
 // Criar controller de adoção
 class AdoptionController {
     async createAdoption(request, response) {
-        const { pet_id, adopter_id } = request.body;
+        const { pet_id, user_id } = request.body;
 
         try {
             const adoption = await prisma.adoption.create({
                 data: {
                     pet_id,
-                    adopter_id,
+                    user_id,
                 },
             });
 

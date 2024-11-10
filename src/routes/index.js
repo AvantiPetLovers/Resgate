@@ -25,14 +25,17 @@ router.delete("/pet/:id", verifyAdminAuth, petController.deletePetById); // Apen
 router.put("/pet/:id", verifyAdminAuth, petController.editPetById); // Apenas ADMIN pode editar um pet
 
 
+
 // Adotantes
 const userController = new UserController();
 
 router.post("/user", userController.addUser) // Qualquer um pode criar um perfil
 router.get("/user", verifyAdminAuth, userController.listUsers); // Apenas ADMIN pode ver todos
-router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante pode ver o proprio perfil // TODO: Descobrir como limitar ao proprio perfil
+router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante deve poder ver o proprio perfil // TODO: Limitar ao proprio perfil de adotante logado
 router.delete("/user/:id", verifyAdminAuth, userController.deleteUserById); // Apenas ADMIN pode deletar
-router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante pode editar proprio perfil // TODO: Descobrir como limitar ao proprio perfil
+router.put("/user/:id", verifyAdminAuth, userController.editUserById); // Adotante deve poder editar proprio perfil // TODO: Limitar ao proprio perfil de adotante logado
+
+
 
 // Adoção
 const adoptionController = new AdoptionController();
