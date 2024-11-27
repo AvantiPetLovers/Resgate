@@ -11,6 +11,7 @@ class UserController {
                 select: {
                     id: true,
                     name: true,
+                    img: true,
                     email: true,
                     access: true
                 }
@@ -28,17 +29,14 @@ class UserController {
                 select: {
                     id: true,
                     name: true,
+                    img: true,
                     email: true,
                     access: true,
                     phone: true,
-                    adress: {
-                        select: {
-                            street: true,
-                            number: true,
-                            neighborhood: true,
-                            city: true
-                        }
-                    }
+                    street: true,
+                    number: true,
+                    neighborhood: true,
+                    city: true
                 },
                 where: { id }
             });
@@ -50,24 +48,19 @@ class UserController {
 
 
     async addUser(request, response) {
-        const { name, email, password, phone, adress } = request.body
+        const { name,img, email, password, phone, street, number, neighborhood, city } = request.body;
 
         const newData = {
-            ...((name && { name }) || {}),
-            ...((email && { email }) || {}),
-            ...((phone && { phone }) || {}),
-            ...((password && { password: await bcrypt.hash(password, 10) }) || {}),
+            name,
+            img,
+            email,
+            phone,
+            street,
+            number,
+            neighborhood,
+            city,
+            ...(password && { password: await bcrypt.hash(password, 10) }),
         };
-        if (adress) {
-            newData.adress = {
-                create: {
-                    street: adress.street,
-                    number: adress.number,
-                    neighborhood: adress.neighborhood,
-                    city: adress.city,
-                }
-            };
-        }
 
         try {
             const user = await prisma.user.create({
@@ -75,72 +68,63 @@ class UserController {
                 select: {
                     id: true,
                     name: true,
+                    img: true,
                     email: true,
                     access: true,
                     phone: true,
-                    adress: { 
-                        select: {
-                            street: true,
-                            number: true,
-                            neighborhood: true,
-                            city: true
-                        }
-                    }
-                }
+                    street: true,
+                    number: true,
+                    neighborhood: true,
+                    city: true,
+                },
             });
-            return response.status(200).json(user)
+            return response.status(200).json(user);
         } catch (error) {
-            return response.status(500).json({ error: error.message })
+            return response.status(500).json({ error: error.message });
         }
     }
 
+
     async editUserById(request, response) {
-        const { id } = request.params
-        const { name, email, password, phone, adress } = request.body
+        const { id } = request.params;
+        const { name, img, email, password, phone, street, number, neighborhood, city } = request.body;
 
         const newData = {
-            ...((name && { name }) || {}),
-            ...((email && { email }) || {}),
-            ...((phone && { phone }) || {}),
-            ...((password && { password: await bcrypt.hash(password, 10) }) || {}),
+            name,
+            img,
+            email,
+            phone,
+            street,
+            number,
+            neighborhood,
+            city,
+            ...(password && { password: await bcrypt.hash(password, 10) }),
         };
-
-        if (adress) {
-            newData.adress = {
-                update: {
-                    street: adress.street,
-                    number: adress.number,
-                    neighborhood: adress.neighborhood,
-                    city: adress.city,
-                }
-            }
-        }
 
         try {
             const user = await prisma.user.update({
+                where: { id },
                 data: newData,
                 select: {
                     id: true,
                     name: true,
+                    img: true,
                     email: true,
                     access: true,
                     phone: true,
-                    adress: {
-                        select: {
-                            street: true,
-                            number: true,
-                            neighborhood: true,
-                            city: true
-                        }
-                    }
+                    street: true,
+                    number: true,
+                    neighborhood: true,
+                    city: true,
                 },
-                where: { id }
-            })
-            return response.status(200).json(user)
+            });
+
+            return response.status(200).json(user);
         } catch (error) {
             return response.status(500).json({ error: error.message })
         }
     }
+
 
     async deleteUserById(request, response) {
         const { id } = request.params

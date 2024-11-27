@@ -20,6 +20,7 @@ class LoginController {
             const adminUser = await prisma.user.create({
                 data: {
                     email: 'admin@admin.com',
+                    img: 'https://i.ytimg.com/vi/HaX54G5dphs/maxresdefault.jpg',
                     name: 'Super Administrador',
                     password: encryptedPassword,
                     access: 'ADMIN',
@@ -27,7 +28,7 @@ class LoginController {
             })
             const payload = { id: adminUser.id, email: adminUser.email, access: adminUser.access }
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
-            return response.status(200).json({ data: payload, token: token })
+            return response.status(200).json({ userData: payload, token: token })
         }
 
 
@@ -46,7 +47,7 @@ class LoginController {
 
             const payload = { id: user.id, email: user.email, access: user.access }
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
-            return response.status(200).json({ data: payload, token: token })
+            return response.status(200).json({ userData: payload, token: token })
 
         } catch (error) {
             return response.status(500).json({ error: error.message })
