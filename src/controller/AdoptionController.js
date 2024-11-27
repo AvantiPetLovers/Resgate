@@ -29,6 +29,7 @@ class AdoptionController {
     };
 
     async listAdoptions(request, response) {
+
         try {
             const adoptions = await prisma.adoption.findMany();
             return response.status(200).json(adoptions);
@@ -37,11 +38,40 @@ class AdoptionController {
         }
     };
 
-    async getAdoptionById(request, response) {
-        const { id } = request.params;
+    async getAdoptionsByUserId(request, response) {
+        const { user_id } = request.params;
+
         try {
-            const adoption = await prisma.adoption.findUnique({
-                where: { pet_id: id },
+            const adoptions = await prisma.adoption.findMany({
+                where: { user_id },
+            });
+            return response.status(200).json(adoptions);
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
+        }
+    }
+
+    async approveAdoption(request, response) {
+        const { pet_id, user_id } = request.params;
+
+        try {
+            const adoption = await prisma.adoption.update({
+                where: { pet_id, user_id },
+                data: { status: 'APPROVED' },
+            });
+            return response.status(200).json(adoption);
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
+        }
+    };
+
+    async rejectAdoption(request, response) {
+        const { pet_id, user_id } = request.params;
+
+        try {
+            const adoption = await prisma.adoption.update({
+                where: { pet_id, user_id },
+                data: { status: 'REJECTED' },
             });
             return response.status(200).json(adoption);
         } catch (error) {

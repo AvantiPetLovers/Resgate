@@ -12,8 +12,8 @@ class PetController {
             const filters = {
                 ...(size && { size }),
                 ...(personality && { personality }),
-                ...(species && { species }), 
-                ...(status && { status }), 
+                ...(species && { species }),
+                ...(status && { status }),
             };
 
             if (min_age || max_age) {
@@ -60,11 +60,12 @@ class PetController {
     }
 
     async addPet(request, response) {
-        const { name, species, birth_date, description, status, size, personality } = request.body
+        const { name, img, species, birth_date, description, status, size, personality } = request.body
         try {
             const pet = await prisma.pet.create({
                 data: {
                     name,
+                    img,
                     species,
                     birth_date,
                     description,
@@ -80,12 +81,13 @@ class PetController {
     }
 
     async editPetById(request, response) {
-        const { name, species, birth_date, description, status, size, personality } = request.body
+        const { name, img, species, birth_date, description, status, size, personality } = request.body
         const { id } = request.params
         try {
             const pet = await prisma.pet.update({
                 data: {
                     name,
+                    img,
                     species,
                     birth_date,
                     description,
