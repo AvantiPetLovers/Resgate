@@ -11,7 +11,7 @@ const router = Router();
 // Login
 const loginController = new LoginController();
 
-router.post("/login", loginController.login); // DOUBT? Pq isso é um POST e nao GET?
+router.post("/login", loginController.login);
 
 
 
@@ -31,9 +31,9 @@ const userController = new UserController();
 
 router.post("/user", userController.addUser) // Qualquer um pode criar um perfil
 router.get("/user", verifyAdminAuth, userController.listUsers); // Apenas ADMIN pode ver todos
-router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante deve poder ver o proprio perfil // TODO: Limitar ao proprio perfil de adotante logado
+router.get("/user/:id", verifyAuth, userController.getUserById); // Adotante deve poder ver o proprio perfil
 router.delete("/user/:id", verifyAdminAuth, userController.deleteUserById); // Apenas ADMIN pode deletar
-router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante deve poder editar proprio perfil // TODO: Limitar ao proprio perfil de adotante logado
+router.put("/user/:id", verifyAuth, userController.editUserById); // Adotante deve poder editar proprio perfil
 
 
 
@@ -44,7 +44,7 @@ router.get('/adoption', verifyAdminAuth, adoptionController.listAdoptions); // A
 router.put('/adoption/:pet_id/:user_id/approve', adoptionController.approveAdoption); // Apenas ADMIN pode aprovar
 router.put('/adoption/:pet_id/:user_id/reject', adoptionController.rejectAdoption); // Apenas ADMIN pode rejeitar
 router.post('/adoption', verifyAuth, adoptionController.createAdoption); // Apenas usuario logado pode fazer uma adocao
-router.get("/adoption/:user_id", verifyAuth, adoptionController.getAdoptionsByUserId); // Adotante deve poder ver suas adoções // TODO: Limitar ao proprio perfil de adotante logado
+router.get("/adoption/:user_id", verifyAuth, adoptionController.getAdoptionsByUserId); // Adotante deve poder ver suas adoções
 
 
 export { router };
