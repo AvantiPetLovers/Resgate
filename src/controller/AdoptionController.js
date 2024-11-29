@@ -14,13 +14,6 @@ class AdoptionController {
                     user_id,
                 },
             });
-
-            // Atualiza automaticamente o status do pet para "adotado"
-            await prisma.pet.update({
-                where: { id: pet_id },
-                data: { status: 'ADOPTED' },
-            });
-
             return response.status(200).json(adoption);
 
         } catch (error) {
@@ -55,10 +48,29 @@ class AdoptionController {
         const { pet_id, user_id } = request.params;
 
         try {
+            // Atualiza o status da adoção para "APPROVED"
             const adoption = await prisma.adoption.update({
-                where: { pet_id, user_id },
+                where: { 
+                    pet_id_user_id: { pet_id, user_id }
+                 },
                 data: { status: 'APPROVED' },
             });
+
+            // Atualiza automaticamente o status do pet para "ADOPTED"
+            await prisma.pet.update({
+                where: { id: pet_id },
+                data: { status: 'ADOPTED' },
+            });
+
+            // Rejeita todas as outras adoções para o mesmo pet
+            await prisma.adoption.updateMany({
+                where: {
+                    pet_id,
+                    user_id: { not: user_id },
+                },
+                data: { status: 'REJECTED' },
+            });
+
             return response.status(200).json(adoption);
         } catch (error) {
             return response.status(500).json({ error: error.message });
@@ -69,10 +81,14 @@ class AdoptionController {
         const { pet_id, user_id } = request.params;
 
         try {
+            // Atualiza o status da adoção para "REJECTED"
             const adoption = await prisma.adoption.update({
-                where: { pet_id, user_id },
+                where: { 
+                    pet_id_user_id: { pet_id, user_id }
+                },
                 data: { status: 'REJECTED' },
             });
+
             return response.status(200).json(adoption);
         } catch (error) {
             return response.status(500).json({ error: error.message });
