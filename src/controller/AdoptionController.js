@@ -81,10 +81,14 @@ class AdoptionController {
         const { pet_id, user_id } = request.params;
 
         try {
+            // Atualiza o status da adoção para "REJECTED"
             const adoption = await prisma.adoption.update({
-                where: { pet_id, user_id },
+                where: { 
+                    pet_id_user_id: { pet_id, user_id }
+                },
                 data: { status: 'REJECTED' },
             });
+
             return response.status(200).json(adoption);
         } catch (error) {
             return response.status(500).json({ error: error.message });
