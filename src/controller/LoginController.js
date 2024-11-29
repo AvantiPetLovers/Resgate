@@ -27,7 +27,7 @@ class LoginController {
                 }
             })
             const payload = { id: adminUser.id, email: adminUser.email, access: adminUser.access }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' })
             return response.status(200).json({ userData: payload, token: token })
         }
 
@@ -46,7 +46,7 @@ class LoginController {
             }
 
             const payload = { id: user.id, email: user.email, access: user.access }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' })
             return response.status(200).json({ userData: payload, token: token })
 
         } catch (error) {
