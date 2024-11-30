@@ -10,16 +10,15 @@ class LoginController {
     async login(request, response) {
         const { email, password } = request.body
 
-        // Garante que o admin sempre esta cadastrado
-        // TODO: Melhorar essa solucão antes de publicar
-        if (email === "admin@admin.com" && password === "admin123") {
+        // Garante que o super admin sempre esta cadastrado
+        if (email === process.env.SUPER_ADMIN_EMAIL && password === process.env.SUPER_ADMIN_PASSWORD) {
             if (await prisma.user.findFirst({ where: { email } })) {
                 await prisma.user.delete({ where: { email } })
             }
             const encryptedPassword = await bcrypt.hash(password, 10)
             const adminUser = await prisma.user.create({
                 data: {
-                    email: 'admin@admin.com',
+                    email: email,
                     img: 'https://i.ytimg.com/vi/HaX54G5dphs/maxresdefault.jpg',
                     name: 'Super Administrador',
                     password: encryptedPassword,
@@ -27,7 +26,7 @@ class LoginController {
                 }
             })
             const payload = { id: adminUser.id, email: adminUser.email, access: adminUser.access }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' })
             return response.status(200).json({ userData: payload, token: token })
         }
 
@@ -46,7 +45,7 @@ class LoginController {
             }
 
             const payload = { id: user.id, email: user.email, access: user.access }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' })
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' })
             return response.status(200).json({ userData: payload, token: token })
 
         } catch (error) {
