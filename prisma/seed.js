@@ -13,7 +13,7 @@ async function main() {
         data: [
             {
                 name: 'Jheyele',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/27314825?v=4',
                 email: 'jheyele@jheyele.com',
                 password: 'senha123',
                 phone: '11987654321',
@@ -24,7 +24,7 @@ async function main() {
             },
             {
                 name: 'Joedo',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/16735088?v=4',
                 email: 'joedo@joedo.com',
                 password: 'senha123',
                 phone: '21912345678',
@@ -35,7 +35,7 @@ async function main() {
             },
             {
                 name: 'Alyne',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/22006756?v=4',
                 email: 'alyne@alyne.com',
                 password: 'senha123',
                 phone: '21976543210',
@@ -46,7 +46,7 @@ async function main() {
             },
             {
                 name: 'Ricardo',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/88405145?v=4',
                 email: 'ricardo@ricardo.com',
                 password: 'senha123',
                 phone: '21998765432',
@@ -57,7 +57,7 @@ async function main() {
             },
             {
                 name: 'Ivan',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/134899476?v=4',
                 email: 'ivan@ivan.com',
                 password: 'senha123',
                 phone: '21987654321',
@@ -68,7 +68,7 @@ async function main() {
             },
             {
                 name: 'Michele',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/122487936?v=4',
                 email: 'michele@michele.com',
                 password: 'senha123',
                 phone: '21911223344',
@@ -79,7 +79,7 @@ async function main() {
             },
             {
                 name: 'Adrielle',
-                img: 'https://via.placeholder.com/150',
+                img: 'https://avatars.githubusercontent.com/u/36175845?v=4',
                 email: 'adrielle@adrielle.com',
                 password: 'senha123',
                 phone: '21944556677',
@@ -96,7 +96,7 @@ async function main() {
         data: [
             {
                 name: 'Rex',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/XgbZdeA.jpeg',
                 species: 'DOG',
                 birth_date: new Date('2022-01-10'),
                 description: 'Um cachorro brincalhão e amigável.',
@@ -106,7 +106,7 @@ async function main() {
             },
             {
                 name: 'Mimi',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/Jvh1OQm.jpeg',
                 species: 'CAT',
                 birth_date: new Date('2021-06-20'),
                 description: 'Uma gata calma e carinhosa.',
@@ -116,7 +116,7 @@ async function main() {
             },
             {
                 name: 'Fifi',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/7DCeduJ.jpeg',
                 species: 'CAT',
                 birth_date: new Date('2021-06-20'),
                 description: 'Uma gata brincalhão e alegre.',
@@ -126,7 +126,7 @@ async function main() {
             },
             {
                 name: 'Luna',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/fSHVB4W.jpeg',
                 species: 'CAT',
                 birth_date: new Date('2021-06-20'),
                 description: 'Uma gata calma e carinhosa.',
@@ -136,7 +136,7 @@ async function main() {
             },
             {
                 name: 'Mickelangelo',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/gsf0kar.jpeg',
                 species: 'TURTLE',
                 birth_date: new Date('2021-06-20'),
                 description: 'Uma tartaruga calma e curiosa.',
@@ -146,7 +146,7 @@ async function main() {
             },
             {
                 name: 'Almofadas',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/JzZm5r2.jpeg',
                 species: 'RABBIT',
                 birth_date: new Date('2021-06-20'),
                 description: 'Um coelho brincalhão e alegre.',
@@ -156,7 +156,7 @@ async function main() {
             },
             {
                 name: 'Pontas',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/X7VJ5xj.jpeg',
                 species: 'RABBIT',
                 birth_date: new Date('2021-06-20'),
                 description: 'Um coelho calmo e carinhoso.',
@@ -166,7 +166,7 @@ async function main() {
             },
             {
                 name: 'Max',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/9iwk1so.jpeg',
                 species: 'DOG',
                 birth_date: new Date('2020-12-05'),
                 description: 'Um cachorro protetor e leal.',
@@ -176,7 +176,7 @@ async function main() {
             },
             {
                 name: 'Bella',
-                img: 'https://placecats.com/millie/300/150',
+                img: 'https://i.imgur.com/0bfJErK.jpeg',
                 species: 'DOG',
                 birth_date: new Date('2019-07-22'),
                 description: 'Uma cachorra dócil e tranquila.',

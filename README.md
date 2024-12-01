@@ -64,6 +64,10 @@
 
 8. Agora é possivel fazer requisições HTTP em http://localhost:3001
 
+9. Caso deseje popular o banco de dados com dados de exemplo, execute:
+   ```bash
+   npm run mock
+   ```
 
 **Testar requisições:**
 1. Instale o [Insomnia](https://insomnia.rest/download).

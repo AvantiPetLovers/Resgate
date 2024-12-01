@@ -40,7 +40,7 @@ class LoginController {
             }
 
             const match = await bcrypt.compare(password, user.password)
-            if (!match) {
+            if (match) {
                 return response.status(401).json({ error: 'Senha invalida' })
             }
 
